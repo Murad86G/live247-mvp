@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing - Live247</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .pricing-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: #ffffff50;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 20px 0;
+      color: #e63946; /* красный как у YouTube */
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .features li {
+      margin: 10px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .features li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: green;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #e63946;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #cc2f3b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 class="logo">Live247</h1>
+      <nav>
+        <a href="/">Home</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="pricing-container">
+      <!-- Free Plan -->
+      <div class="pricing-card">
+        <h3>Free</h3>
+        <p class="price">$0 / mo</p>
+        <ul class="features">
+          <li>1 Stream</li>
+          <li>720p Quality</li>
+          <li>Basic Support</li>
+        </ul>
+        <a href="#" class="btn">Get Started</a>
+      </div>
+
+      <!-- Pro Plan -->
+      <div class="pricing-card">
+        <h3>Pro</h3>
+        <p class="price">$19 / mo</p>
+        <ul class="features">
+          <li>Up to 5 Streams</li>
+          <li>1080p Quality</li>
+          <li>Priority Support</li>
+          <li>Custom Branding</li>
+        </ul>
+        <a href="#" class="btn">Upgrade</a>
+      </div>
+
+      <!-- Business Plan -->
+      <div class="pricing-card">
+        <h3>Business</h3>
+        <p class="price">$49 / mo</p>
+        <ul class="features">
+          <li>Unlimited Streams</li>
+          <li>4K Quality</li>
+          <li>24/7 Premium Support</li>
+          <li>Advanced Analytics</li>
+          <li>Multi-Channel Streaming</li>
+        </ul>
+        <a href="#" class="btn">Subscribe</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Live247. All rights reserved.</p>
+  </footer>
+</body>
+</html>

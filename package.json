@@ -1,0 +1,14 @@
+{
+  "name": "live247-mvp",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7",
+    "ssh2": "^1.15.0"
+  }
+}

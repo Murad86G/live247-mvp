@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #3e2c2a, #b89f91);
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(50, 35, 30, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border-radius: 0 0 10px 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        nav a {
+            color: #ddd;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            background-color: #f0a500;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #e09400;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        /* Заголовок над анимациями */
+        .hero-text {
+            margin-bottom: 30px;
+        }
+
+        .hero-text h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+        }
+
+        /* Сетка анимаций 2x2 */
+        .animations {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            width: 80%;
+            max-width: 960px;
+            margin-bottom: 40px;
+        }
+
+        .animation {
+            background-color: #000;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            aspect-ratio: 16/9;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        /* Блоки с информацией */
+        .info-blocks {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .info-block {
+            background-color: rgba(50, 35, 30, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .info-block h3 {
+            margin-top: 0;
+            color: #f0a500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(50, 35, 30, 0.9);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .animations {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, auto);
+            }
+
+            .info-blocks {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Live</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="pricing.html">Pricing</a>
+            <a href="faq.html">FAQ</a>
+            <a href="/help.html">Help</a>
+            <a href="login.html" class="cta-button">Login</a>
+            <a href="register.html" class="cta-button">Register</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Текст над анимациями -->
+        <div class="hero-text">
+            <h2>Stream 24/7 on YouTube Easily</h2>
+            <p>Live24/7 lets you run continuous YouTube streams effortlessly, with a simple and friendly interface.</p>
+        </div>
+
+        <!-- Сетка 2x2 анимаций -->
+        <div class="animations">
+    <div class="animation">
+        <img src="animations/anim1.gif" alt="Animation 1">
+    </div>
+    <div class="animation">
+        <img src="animations/anim2.gif" alt="Animation 2">
+    </div>
+    <div class="animation">
+        <img src="animations/anim3.gif" alt="Animation 3">
+    </div>
+    <div class="animation">
+        <img src="animations/anim4.gif" alt="Animation 4">
+    </div>
+</div>
+
+
+        <!-- Информационные блоки -->
+        <div class="info-blocks">
+            <div class="info-block">
+                <h3>24/7 Streaming</h3>
+                <p>Run your live streams nonstop with minimal setup and CPU usage.</p>
+            </div>
+            <div class="info-block">
+                <h3>Multi-Account Support</h3>
+                <p>Manage multiple channels and streams from a single dashboard.</p>
+            </div>
+            <div class="info-block">
+                <h3>Easy Analytics</h3>
+                <p>Monitor your stream stats and viewership in real-time.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Live</p>
+    </footer>
+</body>
+</html>
