@@ -38,7 +38,7 @@
       font-size: 2rem;
       font-weight: bold;
       margin: 20px 0;
-      color: #e63946; /* красный как у YouTube */
+      color: #e63946;
     }
 
     .features {
@@ -84,56 +84,50 @@
       <h1 class="logo">Live247</h1>
       <nav>
         <a href="/">Home</a>
-
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="pricing-container">
-      <!-- Free Plan -->
-      <div class="pricing-card">
-        <h3>Free</h3>
-        <p class="price">$0 / mo</p>
-        <ul class="features">
-          <li>1 Stream</li>
-          <li>720p Quality</li>
-          <li>Basic Support</li>
-        </ul>
-        <a href="#" class="btn">Get Started</a>
-      </div>
-
-      <!-- Pro Plan -->
-      <div class="pricing-card">
-        <h3>Pro</h3>
-        <p class="price">$19 / mo</p>
-        <ul class="features">
-          <li>Up to 5 Streams</li>
-          <li>1080p Quality</li>
-          <li>Priority Support</li>
-          <li>Custom Branding</li>
-        </ul>
-        <a href="#" class="btn">Upgrade</a>
-      </div>
-
-      <!-- Business Plan -->
-      <div class="pricing-card">
-        <h3>Business</h3>
-        <p class="price">$49 / mo</p>
-        <ul class="features">
-          <li>Unlimited Streams</li>
-          <li>4K Quality</li>
-          <li>24/7 Premium Support</li>
-          <li>Advanced Analytics</li>
-          <li>Multi-Channel Streaming</li>
-        </ul>
-        <a href="#" class="btn">Subscribe</a>
-      </div>
+    <section id="plans-container" class="pricing-container">
+      <!-- Plans will be dynamically inserted here -->
     </section>
   </main>
 
   <footer>
     <p>&copy; 2025 Live247. All rights reserved.</p>
   </footer>
+
+  <script>
+    async function loadPlans() {
+      try {
+        const res = await fetch('/api/plans');
+        const plans = await res.json();
+
+        const container = document.getElementById('plans-container');
+        container.innerHTML = '';
+
+        plans.forEach(plan => {
+          container.innerHTML += `
+            <div class="pricing-card">
+              <h3>${plan.name}</h3>
+              <p class="price">$${plan.price} / mo</p>
+              <ul class="features">
+                <li>${plan.streams_limit} Streams</li>
+                <li>${plan.cpu_limit} CPU</li>
+                <li>${plan.storage_limit} GB Storage</li>
+                <li>${plan.description}</li>
+              </ul>
+              <a href="#" class="btn">Choose Plan</a>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.error('Error loading plans:', err);
+      }
+    }
+
+    loadPlans();
+  </script>
 </body>
 </html>

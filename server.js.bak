@@ -1,0 +1,77 @@
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3').verbose();
+
+const streamsRouter = require('./backend/routes/streams');
+
+const app = express();
+const PORT = 3000;
+
+// DB init
+const db = new sqlite3.Database('./database/db.sqlite', (err) => {
+  if (err) {
+    console.error('DB error:', err.message);
+    return;
+  }
+  console.log('✅ Connected to SQLite database.');
+
+  db.serialize(() => {
+    // Таблица тарифов
+    db.run(`CREATE TABLE IF NOT EXISTS plans (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      price REAL NOT NULL,
+      streams_limit INTEGER NOT NULL,
+      cpu_limit REAL NOT NULL,
+      storage_limit INTEGER NOT NULL,
+      description TEXT
+    )`);
+
+    // Проверим тарифы
+    db.get("SELECT COUNT(*) as count FROM plans", (err, row) => {
+      if (err) {
+        console.error("Ошибка при проверке тарифов:", err);
+        return;
+      }
+      if (row.count === 0) {
+        const stmt = db.prepare("INSERT INTO plans (name, price, streams_limit, cpu_limit, storage_limit, description) VALUES (?, ?, ?, ?, ?, ?)");
+        stmt.run("Базовый", 9.99, 3, 1.0, 20, "Для старта: 3 трансляции, 1 CPU, 20 GB");
+        stmt.run("Стандарт", 19.99, 6, 2.0, 50, "Оптимально: 6 трансляций, 2 CPU, 50 GB");
+        stmt.run("Премиум", 39.99, 12, 4.0, 100, "Максимум: 12 трансляций, 4 CPU, 100 GB");
+        stmt.finalize();
+        console.log("✅ Добавлены тестовые тарифы");
+      }
+    });
+
+    // Таблица стримов
+    db.run(`CREATE TABLE IF NOT EXISTS streams (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      video_url TEXT NOT NULL,
+      yt_key TEXT NOT NULL,
+      status TEXT DEFAULT 'offline'
+    )`);
+  });
+});
+
+// Middlewares
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// API routes
+app.use('/api/streams', streamsRouter(db));
+
+// Статика
+app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Главная
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+// Server start
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
