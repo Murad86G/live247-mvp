@@ -1,22 +1,44 @@
-# Зависимости Node.js
+# Node.js dependencies
 node_modules/
 
-# Медиа, которые не нужно пушить
-public/animations/
-
-# Конфиденциальные данные
+# Environment variables
 .env
+.env.local
+.env.*.local
 
-# Настройки VS Code
-.vscode/
-
-# Логи
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 *.log
 
-# Временные и кеш-файлы
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Media files not to push
+public/animations/
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# Temporary and cache files
 *.tmp
 *.cache
+*.swp
+*.swo
 
-# Папки сборки (если будут)
+# Build folders
 dist/
 build/
+
+# Coverage directory used by tools like jest
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
