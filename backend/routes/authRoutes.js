@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const createClientModule = require('../auth');
+const createClient = require('../auth');
 
 const router = express.Router();
 
@@ -15,14 +15,13 @@ router.use(
   })
 );
 
-let client, generators;
+let client;
 
-// Initialize OIDC client at server start
+// Initialize OIDC client at server startup
 (async () => {
   try {
-    const result = await createClientModule();
+    const result = await createClient();
     client = result.client;
-    generators = result.generators;
     console.log('✅ OIDC client initialized');
   } catch (err) {
     console.error('OIDC client initialization error:', err);
@@ -31,40 +30,61 @@ let client, generators;
 
 // /login route
 router.get('/login', async (req, res) => {
-  if (!client || !generators) return res.status(500).send('OIDC client not initialized');
+  if (!client) return res.status(500).send('OIDC client not initialized');
 
-  const code_verifier = generators.codeVerifier();
-  const code_challenge = generators.codeChallenge(code_verifier);
+  try {
+    const codeVerifier = client.randomPKCECodeVerifier();
+    const codeChallenge = client.calculatePKCECodeChallenge(codeVerifier);
+    const state = client.randomState();
 
-  req.session.code_verifier = code_verifier;
+    req.session.codeVerifier = codeVerifier;
+    req.session.state = state;
 
-  const authUrl = client.authorizationUrl({
-    scope: 'openid profile email',
-    code_challenge,
-    code_challenge_method: 'S256'
-  });
+    const authUrl = client.buildAuthorizationUrl({
+      scope: 'openid profile email',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',
+      state
+    });
 
-  res.redirect(authUrl);
+    console.log('🔗 Redirecting to:', authUrl);
+    res.redirect(authUrl);
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).send('Error during login initialization');
+  }
 });
 
 // /callback route
 router.get('/callback', async (req, res) => {
-  if (!client || !generators) return res.status(500).send('OIDC client not initialized');
+  if (!client) return res.status(500).send('OIDC client not initialized');
 
   try {
     const params = client.callbackParams(req);
-    const tokenSet = await client.callback(process.env.ZITADEL_REDIRECT_URI, params, {
-      code_verifier: req.session.code_verifier
-    });
+    const tokenSet = await client.callback(
+      process.env.ZITADEL_REDIRECT_URI,
+      params,
+      {
+        code_verifier: req.session.codeVerifier,
+        state: req.session.state
+      }
+    );
 
     req.session.tokenSet = tokenSet;
-    req.session.userinfo = await client.userinfo(tokenSet.access_token);
+    req.session.user = tokenSet.claims();
 
-    res.redirect('/'); // redirect to main page or dashboard
+    console.log('✅ Login successful');
+    res.redirect('/profile');
   } catch (err) {
     console.error('Callback error:', err);
     res.status(500).send('Authentication failed');
   }
+});
+
+// /profile route
+router.get('/profile', (req, res) => {
+  if (!req.session.user) return res.status(401).send('Not logged in');
+  res.json(req.session.user);
 });
 
 // /logout route
